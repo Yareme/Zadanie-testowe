@@ -1,0 +1,14 @@
+controllers:
+    resource: ../src/Controller/
+    type: annotation
+
+kernel:
+    resource: ../src/Kernel.php
+    type: annotation
+hello:
+    path: /
+    controller: App\Controller\HelloController::hello
+
+lista:
+    path: /lista
+    controller: App\Controller\ListaController::lista

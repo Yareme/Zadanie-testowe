@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Zadanie testowe</h1>
+
+
+<h2>Komenda konsolowa dla pobrania postów:  php bin/console app:all-post</h2>
+{% if app.user %}
+    <p>Email: {{ app.user.email }} </p>
+    <a href="{{ path('app_logout') }}">Wyloguj się</a> <br>
+    <a href="{{ path('lista') }}">Lista</a> <br>
+{% else %}
+    <a href="{{ path('app_login') }}">Logowanie</a> <br>
+    <a href="{{ path('app_register') }}">Register</a>
+{% endif %}
+</body>
+</html>

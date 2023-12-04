@@ -1,0 +1,30 @@
+
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lista Postów</h1>
+
+    {% if app.user %}
+    <p>Email: {{ app.user.email }} </p>
+    <a href="{{ path('app_logout') }}">Wyloguj się</a> <br>
+    {% endif %} <br>
+
+
+    {% if app.user %}
+        <ul>
+            {% for post in posts %}
+
+                   <h2> {{ post.title }} -- Autor: {{ post.imie}} </h2>
+                        <p>{{ post.body }}</p>
+                    <a href="{{ path('delete_post', {'id': post.id}) }}">Usuń</a>
+
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Zaloguj się, aby zobaczyć listę postów.</p>
+        <a href="{{ path('app_login') }}">Logowanie</a> <br>
+        <a href="{{ path('app_register') }}">Register</a>
+    {% endif %}
+{% endblock %}
+
