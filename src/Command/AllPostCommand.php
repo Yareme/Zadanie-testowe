@@ -20,14 +20,14 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class AllPostCommand extends Command
 {
     private $entityManager;
-    private $httpClient;
 
-    public function __construct(EntityManagerInterface $entityManager, HttpClientInterface $httpClient)
+
+    public function __construct(EntityManagerInterface $entityManager)
     {
         parent::__construct();
 
         $this->entityManager = $entityManager;
-        $this->httpClient = $httpClient;
+
     }
 
     protected function configure()
@@ -39,9 +39,12 @@ class AllPostCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Здесь вам нужно реализовать логику загрузки данных из API и их сохранение в базе данных.
-        // Пример использования HttpClient:
-        $postResponse = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/posts');
-        $data = $postResponse->toArray();
+        $urlPost = 'https://jsonplaceholder.typicode.com/posts';
+        $postResponse = file_get_contents($urlPost);
+
+/*        $postResponse = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/posts');*/
+       /* $data = $postResponse->toArray();*/
+        $data= json_decode($postResponse,true);
 
         // Пример сохранения данных в базе данных:
         foreach ($data as $restData) {
@@ -50,8 +53,11 @@ class AllPostCommand extends Command
             $rest->setBody($restData['body']);
             $rest->setUserId($restData['userId']);
             $rest->setPostId($restData['id']);
-            $userResponse = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/users/'.$restData['userId']);
-            $userData= $userResponse->toArray();
+            $urlUser='https://jsonplaceholder.typicode.com/users/'.$restData['userId'];
+         /*   $userResponse = $this->httpClient->request('GET', 'https://jsonplaceholder.typicode.com/users/'.$restData['userId']);
+            $userData= $userResponse->toArray();*/
+            $userResponse = file_get_contents($urlUser);
+            $userData= json_decode($userResponse,true);
             $rest->setImie($userData['name']);
 
             $this->entityManager->persist($rest);
